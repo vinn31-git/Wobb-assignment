@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
+import { useSelectedProfilesStore } from "@/store/selectedProfilesStore";
 import type { FullUserProfile, ProfileDetailResponse } from "@/types";
 import { formatEngagementRate } from "@/utils/formatters";
 import { loadProfileByUsername } from "@/utils/profileLoader";
@@ -16,18 +17,30 @@ export function ProfileDetailPage() {
   const { username } = useParams<{ username: string }>();
   const [searchParams] = useSearchParams();
   const platform = searchParams.get("platform") || "unknown";
+
   const [profileData, setProfileData] = useState<ProfileDetailResponse | null>(
     null
   );
   const [loaded, setLoaded] = useState(false);
 
+  const { addProfile, selectedProfiles } = useSelectedProfilesStore();
+
   useEffect(() => {
     if (!username) return;
 
-    loadProfileByUsername(username).then((data) => {
-      setProfileData(data);
-      setLoaded(true);
-    });
+    const fetchProfile = async () => {
+      try {
+        const data = await loadProfileByUsername(username);
+        setProfileData(data);
+      } catch (error) {
+        console.error(error);
+        setProfileData(null);
+      } finally {
+        setLoaded(true);
+      }
+    };
+
+    fetchProfile();
   }, [username]);
 
   if (!username) {
@@ -62,6 +75,14 @@ export function ProfileDetailPage() {
 
   const user: FullUserProfile = profileData.data.user_profile;
 
+  const isAdded = selectedProfiles.some(
+    (profile) => profile.username === user.username
+  );
+
+  const handleAddToList = () => {
+    addProfile(user);
+  };
+
   return (
     <Layout title={user.fullname}>
       <Link to="/" className="text-sm text-blue-600 mb-4 inline-block">
@@ -73,16 +94,23 @@ export function ProfileDetailPage() {
           src={user.picture}
           className="w-24 h-24 rounded-full border"
         />
+
         <div className="flex-1">
           <h2 className="text-xl font-bold">
             @{user.username}
             <VerifiedBadge verified={user.is_verified} />
           </h2>
+
           <p className="text-gray-600">{user.fullname}</p>
-          <p className="text-xs text-gray-400 mt-1">Platform: {platform}</p>
+
+          <p className="text-xs text-gray-400 mt-1">
+            Platform: {platform}
+          </p>
 
           {user.description && (
-            <p className="mt-3 text-sm text-gray-700">{user.description}</p>
+            <p className="mt-3 text-sm text-gray-700">
+              {user.description}
+            </p>
           )}
 
           <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
@@ -92,20 +120,25 @@ export function ProfileDetailPage() {
                 {formatFollowersDetail(user.followers)}
               </div>
             </div>
+
             <div className="border p-2 rounded">
               <div className="text-gray-500">Engagement Rate</div>
               <div className="font-semibold">
                 {user.engagement_rate !== undefined
-                  ? (user.engagement_rate * 10000).toFixed(2) + "%"
+                  ? formatEngagementRate(user.engagement_rate)
                   : "N/A"}
               </div>
             </div>
+
             {user.posts_count !== undefined && (
               <div className="border p-2 rounded">
                 <div className="text-gray-500">Posts</div>
-                <div className="font-semibold">{user.posts_count}</div>
+                <div className="font-semibold">
+                  {user.posts_count}
+                </div>
               </div>
             )}
+
             {user.avg_likes !== undefined && (
               <div className="border p-2 rounded">
                 <div className="text-gray-500">Avg Likes</div>
@@ -114,12 +147,16 @@ export function ProfileDetailPage() {
                 </div>
               </div>
             )}
+
             {user.avg_comments !== undefined && (
               <div className="border p-2 rounded">
                 <div className="text-gray-500">Avg Comments</div>
-                <div className="font-semibold">{user.avg_comments}</div>
+                <div className="font-semibold">
+                  {user.avg_comments}
+                </div>
               </div>
             )}
+
             {user.avg_views !== undefined && user.avg_views > 0 && (
               <div className="border p-2 rounded">
                 <div className="text-gray-500">Avg Views</div>
@@ -128,6 +165,7 @@ export function ProfileDetailPage() {
                 </div>
               </div>
             )}
+
             {user.engagements !== undefined && (
               <div className="border p-2 rounded">
                 <div className="text-gray-500">Engagements</div>
@@ -142,19 +180,22 @@ export function ProfileDetailPage() {
             <a
               href={user.url}
               target="_blank"
+              rel="noopener noreferrer"
               className="inline-block mt-4 text-blue-600 text-sm"
             >
               View on platform →
             </a>
           )}
 
-          {/* TODO: candidates must implement Add to List feature */}
-          {/* TODO: candidates must implement Add to List feature */}
           <button
-            disabled
-            className="block mt-4 px-4 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
+            onClick={handleAddToList}
+            disabled={isAdded}
+            className={`block mt-4 px-4 py-2 rounded ${isAdded
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-600 text-white hover:bg-blue-700"
+              }`}
           >
-            Add to List
+            {isAdded ? "Added" : "Add to List"}
           </button>
         </div>
       </div>

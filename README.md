@@ -1,80 +1,233 @@
-# Wobb Frontend Assignment
+# Wobb Vibe Coder Assignment
 
-A starter influencer search application built with **React**, **TypeScript**, **Vite**, and **Tailwind CSS**. This project is intentionally left in a rough-but-working state for candidates to improve.
+## Live Demo
 
-## Getting Started
+🔗 **Live Application:** https://wobb-assignment-rouge.vercel.app/
+
+## GitHub Repository
+
+🔗 https://github.com/vinn31-git/Wobb-assignment
+
+---
+
+# Overview
+
+This project is an enhanced version of the provided Influencer Search application built with **React, TypeScript, Vite, and Tailwind CSS**.
+
+The focus of this submission was to improve functionality, fix bugs, modernize the UI, improve state management, and enhance the overall user experience while maintaining clean and maintainable code.
+
+---
+
+# Features Implemented
+
+## State Management
+
+- Implemented global state management using **Zustand**
+- Added persistent storage using Zustand Persist middleware
+- Centralized selected profiles state
+
+---
+
+## Selected Profiles
+
+Implemented the complete **Add to List** feature:
+
+- Add profiles to selected list
+- Prevent duplicate additions
+- Remove selected profiles
+- Persist selected profiles after refresh
+- Drag & Drop reordering
+
+---
+
+## Bug Fixes
+
+Fixed several issues present in the starter project:
+
+- Fixed incorrect engagement rate calculation
+- Added graceful fallback for unavailable profile details
+- Fixed broken profile image issues
+- Improved overall UI responsiveness
+- Removed unnecessary debug code
+
+---
+
+## UI / UX Improvements
+
+- Redesigned profile cards
+- Improved typography and spacing
+- Responsive dashboard layout
+- Sticky Selected Profiles sidebar
+- Better button styling
+- Improved hover interactions
+- Added smooth animations using Framer Motion
+- Improved overall visual hierarchy
+
+---
+
+## Performance Improvements
+
+- Reduced unnecessary renders
+- Cleaner component organization
+- Improved maintainability
+- Better state management using Zustand
+
+---
+
+# Libraries Added
+
+- Zustand
+- Framer Motion
+- @hello-pangea/dnd
+
+---
+
+# Engineering Decisions
+
+The provided dataset contains detailed profile information for only a subset of the available influencer profiles.
+
+Instead of generating artificial profile data, the application gracefully handles unavailable profile details by displaying a user-friendly fallback screen. This preserves data integrity while providing a better user experience.
+
+---
+
+# Tech Stack
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Zustand
+- Framer Motion
+- @hello-pangea/dnd
+
+---
+
+# Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+```
+
+Install dependencies
 
 ```bash
 npm install
+```
+
+Run locally
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) to view the app.
+Production build
 
-## What's Included
+```bash
+npm run build
+```
 
-- **Search / Dashboard** — filter influencers by platform (Instagram, YouTube, TikTok) and search by username or full name
-- **Profile Details** — click a profile to view extended data loaded from individual JSON files
-- **Routing** — `react-router-dom` with `/` (search) and `/profile/:username` (details)
+---
 
-Sample data lives in:
+# Project Structure
 
-- `src/assets/data/search/` — platform search results (10 profiles each)
-- `src/assets/data/profiles/` — detailed profile JSON per username
+```
+src
+├── assets
+├── components
+├── pages
+├── store
+├── types
+├── utils
+```
 
-## How to Submit
+---
 
-1. **Download or clone** this starter project to your machine.
-2. **Create a new repository** on your own GitHub account. Do not fork the original assignment repo — push your work to a repo you own.
-3. Complete the tasks below and push your changes to that repository.
-4. **Share the public GitHub repository URL** with us as your submission.
+# Assumptions
 
-### Deadline (strict)
+- The provided dataset intentionally contains only a limited number of detailed profile JSON files.
+- Missing detailed profile information is handled gracefully instead of generating placeholder data.
+- Existing project architecture was preserved while improving functionality.
 
-- **Due:** **2 July 2026, 2:00 PM IST** (Indian Standard Time, UTC+5:30)
-- **Any git commits made after this deadline will disqualify your submission.** We will only consider the repository state as of the deadline; late commits will not be reviewed.
-- Make sure your final work is pushed **before** the cutoff.
+---
 
-## AI Usage
+# Trade-offs
 
-You may use any AI tools (Cursor, ChatGPT, Claude, GitHub Copilot, etc.). We are evaluating your final solution and engineering decisions.
+Due to the limited assignment timeline, I prioritized implementing the core functionality and improving the overall user experience over adding additional enhancements.
 
-## Your Tasks
+Priority was given to:
 
-Complete the following as part of your submission:
+- State management with Zustand
+- Complete "Add to List" workflow
+- Persistent selected profiles
+- Drag & Drop functionality
+- Bug fixes
+- UI redesign
+- Performance improvements
 
-1. **Find and fix all bugs and quality issues** — the codebase contains intentional bugs and quality issues. Identify and resolve them.
+Some enhancements were intentionally deferred to keep the implementation stable and maintainable.
 
-2. **Completely redesign the UI/UX** — replace the basic layout with a polished, modern interface. Focus on usability, visual hierarchy, and delight.
+---
 
-3. **Replace React Context with Zustand** — when you implement state management for the selected list, use [Zustand](https://github.com/pmndrs/zustand) instead of React Context.
+# Known Limitations
 
-4. **Implement "Select profile & Add to List"** — the disabled "Add to List" button is a stub. Build the full feature:
-   - Select / add profiles to a persistent list
-   - View and manage the selected list
-   - Handle duplicates appropriately
+- Mobile responsiveness can be further improved on smaller screen sizes.
+- Dark mode/theme switching has not been implemented.
+- Only a subset of influencer profiles include detailed profile data in the provided dataset. Missing profile details are handled gracefully instead of generating placeholder content.
+- Some UI components can be further refined for better accessibility.
 
-5. **Improve code quality and project structure** — refactor as needed, add proper types, and follow React best practices.
+---
 
-6. **Optimize performance** — apply sensible optimizations where appropriate.
+# Future Improvements
 
-7. **Use any libraries you need** — you are not limited to the current stack. Choose tools that help you deliver a great result (UI kits, state managers, testing libraries, etc.).
+Given additional development time, I would implement:
 
-## Scripts
+- Full mobile-first responsive design
+- Dark mode with theme persistence
+- Skeleton loading states
+- Improved accessibility (ARIA labels, keyboard navigation)
+- Unit and integration tests
+- Search debouncing
+- Image lazy loading
+- Error boundaries
+- Additional animations and micro-interactions
+- Deployment monitoring and analytics
 
-| Command        | Description              |
-| -------------- | ------------------------ |
-| `npm run dev`  | Start development server |
-| `npm run build`| Production build         |
-| `npm run lint` | Run ESLint               |
+---
 
-## Submission Notes
+# Future Improvements
 
-- Document any assumptions or trade-offs in your README
-- Ensure `npm run build` passes before submitting
-- Focus on demonstrating your judgment — not every possible feature needs to be built, but the core assignment items should be addressed thoughtfully
-- Double-check that your repo is public (or that we have access) and that the link is included in your submission
-- Please make meaningful commits throughout your work. We may review your commit history.
-- **Bonus:** Deploying the app (e.g. Vercel, Netlify, GitHub Pages) is optional but will be considered a plus — include the live URL in your submission if you do
+Given additional time, the following features could be added:
 
-Good luck!
+- Dark Mode
+- Skeleton loading states
+- Improved accessibility (ARIA)
+- Unit & Integration tests
+- Mobile-first refinements
+- Search debouncing
+- Image lazy loading
+- Error boundaries
+
+---
+
+# Submission Checklist
+
+- ✅ Bug fixes
+- ✅ UI redesign
+- ✅ Zustand state management
+- ✅ Add to List feature
+- ✅ Duplicate prevention
+- ✅ Remove profiles
+- ✅ Persistent selected profiles
+- ✅ Drag & Drop reordering
+- ✅ Responsive design
+- ✅ Performance improvements
+- ✅ Production build passes
+- ✅ Deployed on Vercel
+
+---
+
+# Thank You
+
+Thank you for reviewing my submission. I enjoyed working on this assignment and focused on delivering a clean, maintainable, and user-friendly solution while following modern React development practices.

@@ -63,12 +63,23 @@ export function ProfileDetailPage() {
   if (!profileData) {
     return (
       <Layout title={`@${username}`}>
-        <p className="text-red-600 mb-4">
-          Could not load profile details for {username}
-        </p>
-        <Link to="/" className="text-blue-600 underline">
-          Back to search
-        </Link>
+        <div className="max-w-xl mx-auto bg-yellow-50 border border-yellow-300 rounded-lg p-6 text-center">
+          <h2 className="text-xl font-semibold text-yellow-800 mb-3">
+            Profile Details Unavailable
+          </h2>
+
+          <p className="text-gray-700 mb-5">
+            Detailed information for <strong>@{username}</strong> is not
+            available in the current dataset.
+          </p>
+
+          <Link
+            to="/"
+            className="inline-block px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+          >
+            Back to Search
+          </Link>
+        </div>
       </Layout>
     );
   }
